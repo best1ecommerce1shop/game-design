@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create AI Avatar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="site-header">
+        <h1>Create AI Avatar</h1>
+      </header>
+      <main class="layout">
+        <section class="scanner-panel hidden" id="scanner-panel">
+          <div class="scanner-preview">
+            <img src="" alt="Uploaded photo" id="scanner-image" />
+            <div class="scanner-overlay" id="scanner-overlay"></div>
+          </div>
+          <div class="scanner-status">
+            <span class="status-label">Scanning photo</span>
+            <div class="progress" aria-live="polite">
+              <div class="progress-fill" id="progress-bar-fill"></div>
+            </div>
+            <span class="progress-value" id="progress-value">0%</span>
+          </div>
+        </section>
+
+        <section class="chat" id="chat">
+          <div class="chat-log" id="chat-log"></div>
+          <div class="chat-input">
+            <input
+              type="text"
+              id="chat-input-field"
+              placeholder="Tap to respond..."
+              readonly
+            />
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
