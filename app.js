@@ -8,6 +8,7 @@ const scannerImage = document.getElementById('scanner-image');
 const scannerOverlay = document.getElementById('scanner-overlay');
 const progressValue = document.getElementById('progress-value');
 const progressBarFill = document.getElementById('progress-bar-fill');
+const scannerPreview = document.querySelector('.scanner-preview');
 const chatSection = document.getElementById('chat');
 
 let typingIndicator = null;
@@ -109,6 +110,7 @@ function startScanning(photoSrc) {
 
   setTimeout(() => {
     scannerPanel.classList.remove('hidden');
+    ensureScannerPreviewSizing();
 
     scannerOverlay.classList.remove('scanning');
     // Force reflow so animation can restart every time
@@ -141,6 +143,46 @@ function startScanning(photoSrc) {
       deliverBotResults();
     }, duration + 200);
   }, 1000);
+}
+
+function ensureScannerPreviewSizing() {
+  if (!scannerPreview) {
+    return;
+  }
+
+  const measureAndApply = () => {
+    if (!scannerImage.naturalWidth || !scannerImage.naturalHeight) {
+      return;
+    }
+
+    const ratio = scannerImage.naturalWidth / scannerImage.naturalHeight;
+    const panelWidth = Math.max(scannerPanel.clientWidth - 40, 220);
+    const maxWidth = Math.min(panelWidth, 520);
+    const maxHeight = Math.min(window.innerHeight * 0.6, 440);
+
+    let targetWidth = maxWidth;
+    let targetHeight = targetWidth / ratio;
+
+    if (targetHeight > maxHeight) {
+      targetHeight = maxHeight;
+      targetWidth = targetHeight * ratio;
+    }
+
+    scannerPreview.style.width = `${targetWidth}px`;
+    scannerPreview.style.height = `${targetHeight}px`;
+  };
+
+  if (scannerImage.complete) {
+    measureAndApply();
+  } else {
+    scannerImage.addEventListener('load', measureAndApply, { once: true });
+  }
+
+  window.addEventListener('resize', () => {
+    if (!scannerPanel.classList.contains('hidden')) {
+      measureAndApply();
+    }
+  }, { once: true });
 }
 
 function deliverBotResults() {
