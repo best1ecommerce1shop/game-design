@@ -30,7 +30,7 @@ inputField.addEventListener('click', () => {
   setTimeout(() => {
     appendMessage('user', '', userPhotoSrc);
     startScanning(userPhotoSrc);
-  }, 180);
+  }, 500);
 });
 
 function appendMessage(author, text, imageSrc) {
