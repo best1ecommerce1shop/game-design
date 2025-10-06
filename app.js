@@ -8,6 +8,7 @@ const scannerImage = document.getElementById('scanner-image');
 const scannerOverlay = document.getElementById('scanner-overlay');
 const progressValue = document.getElementById('progress-value');
 const progressBarFill = document.getElementById('progress-bar-fill');
+const chatSection = document.getElementById('chat');
 
 let typingIndicator = null;
 let scanning = false;
@@ -26,11 +27,12 @@ inputField.addEventListener('click', () => {
   inputField.placeholder = 'Hang tight, generating avatar...';
 
   const userPrompt = 'create avatar for fortnite';
-  appendMessage('user', userPrompt);
+  appendMessage('user', userPrompt, userPhotoSrc);
+  appendTypingIndicator();
   setTimeout(() => {
-    appendMessage('user', '', userPhotoSrc);
+    removeTypingIndicator();
     startScanning(userPhotoSrc);
-  }, 500);
+  }, 1800);
 });
 
 function appendMessage(author, text, imageSrc) {
@@ -103,37 +105,42 @@ function showWelcomeMessage() {
 function startScanning(photoSrc) {
   scanning = true;
   scannerImage.src = photoSrc;
-  scannerPanel.classList.remove('hidden');
-
-  scannerOverlay.classList.remove('scanning');
-  // Force reflow so animation can restart every time
-  void scannerOverlay.offsetWidth;
-  scannerOverlay.classList.add('scanning');
-
-  progressBarFill.style.width = '0%';
-  progressValue.textContent = '0%';
-
-  const duration = 3200;
-  const updateInterval = 80;
-  let elapsed = 0;
-
-  const intervalId = setInterval(() => {
-    elapsed += updateInterval;
-    const progress = Math.min(100, Math.round((elapsed / duration) * 100));
-    progressBarFill.style.width = progress + '%';
-    progressValue.textContent = progress + '%';
-
-    if (progress >= 100) {
-      clearInterval(intervalId);
-    }
-  }, updateInterval);
+  chatSection.classList.add('chat-hidden');
 
   setTimeout(() => {
+    scannerPanel.classList.remove('hidden');
+
     scannerOverlay.classList.remove('scanning');
-    scannerPanel.classList.add('hidden');
-    scanning = false;
-    deliverBotResults();
-  }, duration + 200);
+    // Force reflow so animation can restart every time
+    void scannerOverlay.offsetWidth;
+    scannerOverlay.classList.add('scanning');
+
+    progressBarFill.style.width = '0%';
+    progressValue.textContent = '0%';
+
+    const duration = 3200;
+    const updateInterval = 80;
+    let elapsed = 0;
+
+    const intervalId = setInterval(() => {
+      elapsed += updateInterval;
+      const progress = Math.min(100, Math.round((elapsed / duration) * 100));
+      progressBarFill.style.width = progress + '%';
+      progressValue.textContent = progress + '%';
+
+      if (progress >= 100) {
+        clearInterval(intervalId);
+      }
+    }, updateInterval);
+
+    setTimeout(() => {
+      scannerOverlay.classList.remove('scanning');
+      scannerPanel.classList.add('hidden');
+      chatSection.classList.remove('chat-hidden');
+      scanning = false;
+      deliverBotResults();
+    }, duration + 200);
+  }, 1000);
 }
 
 function deliverBotResults() {

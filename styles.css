@@ -194,6 +194,10 @@ body {
     flex-basis 0.4s ease;
 }
 
+.chat.chat-hidden {
+  display: none;
+}
+
 .chat-log {
   overflow-y: auto;
   display: flex;
