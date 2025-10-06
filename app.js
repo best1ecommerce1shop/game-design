@@ -8,11 +8,13 @@ const scannerImage = document.getElementById('scanner-image');
 const scannerOverlay = document.getElementById('scanner-overlay');
 const progressValue = document.getElementById('progress-value');
 const progressBarFill = document.getElementById('progress-bar-fill');
-const scannerPreview = document.querySelector('.scanner-preview');
 const chatSection = document.getElementById('chat');
+const insightButton = document.getElementById('insight-button');
+const insightOverlay = document.getElementById('insight-overlay');
 
 let typingIndicator = null;
 let scanning = false;
+let overlayHideTimeout;
 
 showWelcomeMessage();
 
@@ -98,7 +100,7 @@ function showWelcomeMessage() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Hi! Send photo and describe the parameters!'
+      'Hi! Send your photo and describe the parameters so I can craft your avatar.'
     );
   }, 600);
 }
@@ -110,7 +112,6 @@ function startScanning(photoSrc) {
 
   setTimeout(() => {
     scannerPanel.classList.remove('hidden');
-    ensureScannerPreviewSizing();
 
     scannerOverlay.classList.remove('scanning');
     // Force reflow so animation can restart every time
@@ -145,56 +146,20 @@ function startScanning(photoSrc) {
   }, 1000);
 }
 
-function ensureScannerPreviewSizing() {
-  if (!scannerPreview) {
-    return;
-  }
-
-  const measureAndApply = () => {
-    if (!scannerImage.naturalWidth || !scannerImage.naturalHeight) {
-      return;
-    }
-
-    const ratio = scannerImage.naturalWidth / scannerImage.naturalHeight;
-    const panelWidth = Math.max(scannerPanel.clientWidth - 40, 220);
-    const maxWidth = Math.min(panelWidth, 520);
-    const maxHeight = Math.min(window.innerHeight * 0.6, 440);
-
-    let targetWidth = maxWidth;
-    let targetHeight = targetWidth / ratio;
-
-    if (targetHeight > maxHeight) {
-      targetHeight = maxHeight;
-      targetWidth = targetHeight * ratio;
-    }
-
-    scannerPreview.style.width = `${targetWidth}px`;
-    scannerPreview.style.height = `${targetHeight}px`;
-  };
-
-  if (scannerImage.complete) {
-    measureAndApply();
-  } else {
-    scannerImage.addEventListener('load', measureAndApply, { once: true });
-  }
-
-  window.addEventListener('resize', () => {
-    if (!scannerPanel.classList.contains('hidden')) {
-      measureAndApply();
-    }
-  }, { once: true });
-}
-
 function deliverBotResults() {
   appendTypingIndicator();
   setTimeout(() => {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Here is virtual avatar — add it to inventory and enjoy the game!',
+      'Here is your virtual avatar—add it to your inventory and enjoy the game!',
       generatedAvatarSrc
     );
     inputField.placeholder = 'Avatar ready!';
+    inputField.classList.add('is-hidden');
+    if (insightButton) {
+      insightButton.classList.remove('is-hidden');
+    }
   }, 900);
 }
 
@@ -207,4 +172,59 @@ function currentTime() {
 
 function scrollChatToBottom() {
   chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+if (insightButton) {
+  insightButton.addEventListener('click', () => {
+    showInsightOverlay();
+  });
+}
+
+if (insightOverlay) {
+  insightOverlay.addEventListener('click', (event) => {
+    if (event.target === insightOverlay || event.target.classList.contains('overlay-layer')) {
+      hideInsightOverlay();
+    }
+  });
+}
+
+function showInsightOverlay() {
+  if (!insightOverlay) {
+    return;
+  }
+
+  if (overlayHideTimeout) {
+    clearTimeout(overlayHideTimeout);
+  }
+
+  insightOverlay.classList.remove('is-hidden');
+  requestAnimationFrame(() => {
+    insightOverlay.classList.add('visible');
+    insightOverlay.setAttribute('aria-hidden', 'false');
+  });
+
+  overlayHideTimeout = setTimeout(() => {
+    hideInsightOverlay();
+  }, 2200);
+}
+
+function hideInsightOverlay() {
+  if (!insightOverlay || insightOverlay.classList.contains('is-hidden')) {
+    return;
+  }
+
+  if (overlayHideTimeout) {
+    clearTimeout(overlayHideTimeout);
+    overlayHideTimeout = undefined;
+  }
+
+  insightOverlay.classList.remove('visible');
+  insightOverlay.setAttribute('aria-hidden', 'true');
+
+  const handleTransitionEnd = () => {
+    insightOverlay.classList.add('is-hidden');
+    insightOverlay.removeEventListener('transitionend', handleTransitionEnd);
+  };
+
+  insightOverlay.addEventListener('transitionend', handleTransitionEnd);
 }
