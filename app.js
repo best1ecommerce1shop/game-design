@@ -29,7 +29,7 @@ inputField.addEventListener('click', () => {
   inputField.blur();
   inputField.placeholder = 'Hang tight, generating avatar...';
 
-  const userPrompt = 'create avatar for fortnite';
+  const userPrompt = 'Create avatar for fortnite';
   appendMessage('user', userPrompt, userPhotoSrc);
   appendTypingIndicator();
   setTimeout(() => {
@@ -100,7 +100,7 @@ function showWelcomeMessage() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Hi! Send your photo and describe the parameters so I can craft your avatar.'
+      'Hi! Send me photo and describe the parameters!'
     );
   }, 600);
 }
@@ -152,7 +152,7 @@ function deliverBotResults() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Here is your virtual avatar—add it to your inventory and enjoy the game!',
+      'Here is AI-avatar — add it to inventory and enjoy the game!',
       generatedAvatarSrc
     );
     inputField.placeholder = 'Avatar ready!';
