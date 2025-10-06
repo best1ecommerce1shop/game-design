@@ -98,7 +98,7 @@ function showWelcomeMessage() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Hi! Send your photo and describe the parameters so I can craft your avatar.'
+      'Hi! Send photo and describe the parameters!'
     );
   }, 600);
 }
@@ -191,7 +191,7 @@ function deliverBotResults() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Here is your virtual avatar—add it to your inventory and enjoy the game!',
+      'Here is virtual avatar — add it to inventory and enjoy the game!',
       generatedAvatarSrc
     );
     inputField.placeholder = 'Avatar ready!';
