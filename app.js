@@ -44,6 +44,10 @@ function appendMessage(author, text, imageSrc) {
   }
 
   if (imageSrc) {
+    message.classList.add('has-image');
+    if (!text) {
+      message.classList.add('image-only');
+    }
     const image = document.createElement('img');
     image.src = imageSrc;
     image.alt = author === 'user' ? 'Player photo' : 'Generated avatar';
