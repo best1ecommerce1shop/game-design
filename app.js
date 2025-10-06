@@ -1,5 +1,5 @@
-const userPhotoSrc = 'https://i.ibb.co/LDz2bCNN/Frame-35.png'; // Replace with the path to the uploaded player photo
-const generatedAvatarSrc = 'https://i.ibb.co/v5zDJJK/Frame-36.png'; // Replace with the path to the generated avatar
+const userPhotoSrc = 'https://i.ibb.co/dsffP2H5/Frame-43.png'; // Replace with the path to the uploaded player photo
+const generatedAvatarSrc = 'https://i.ibb.co/Kx9wKqzy/Frame-44.png'; // Replace with the path to the generated avatar
 
 const chatLog = document.getElementById('chat-log');
 const inputField = document.getElementById('chat-input-field');
@@ -29,7 +29,7 @@ inputField.addEventListener('click', () => {
   inputField.blur();
   inputField.placeholder = 'Hang tight, generating avatar...';
 
-  const userPrompt = 'Create avatar for fortnite';
+  const userPrompt = 'Create avatar for Brawl Stars';
   appendMessage('user', userPrompt, userPhotoSrc);
   appendTypingIndicator();
   setTimeout(() => {
