@@ -29,7 +29,7 @@ inputField.addEventListener('click', () => {
   inputField.blur();
   inputField.placeholder = 'Hang tight, generating avatar...';
 
-  const userPrompt = 'Here is my university. What phone would you recommend so that I can study and work wherever I want?';
+  const userPrompt = 'What phone would you recommend for studying and working anywhere?';
   appendMessage('user', userPrompt, userPhotoSrc);
   appendTypingIndicator();
   setTimeout(() => {
