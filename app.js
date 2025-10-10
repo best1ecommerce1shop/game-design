@@ -1,5 +1,5 @@
-const userPhotoSrc = 'https://i.ibb.co/dsffP2H5/Frame-43.png'; // Replace with the path to the uploaded player photo
-const generatedAvatarSrc = 'https://i.ibb.co/F4tKGynG/Frame-46.png'; // Replace with the path to the generated avatar
+const userPhotoSrc = 'https://i.ibb.co/Xf9vDhr9/20251010-1239-remix-01k76qqq0xfwybqwknf7wgx5d1.png'; // Replace with the path to the uploaded player photo
+const generatedAvatarSrc = 'https://i.ibb.co/B5cDPxZG/1.png'; // Replace with the path to the generated avatar
 
 const chatLog = document.getElementById('chat-log');
 const inputField = document.getElementById('chat-input-field');
@@ -29,7 +29,7 @@ inputField.addEventListener('click', () => {
   inputField.blur();
   inputField.placeholder = 'Hang tight, generating avatar...';
 
-  const userPrompt = 'Create avatar for Roblox';
+  const userPrompt = 'Wich phone i can recieve?';
   appendMessage('user', userPrompt, userPhotoSrc);
   appendTypingIndicator();
   setTimeout(() => {
@@ -100,7 +100,7 @@ function showWelcomeMessage() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Hi! Send me photo and describe the parameters!'
+      'Hi! Send me photo of University!'
     );
   }, 600);
 }
@@ -152,7 +152,7 @@ function deliverBotResults() {
     removeTypingIndicator();
     appendMessage(
       'bot',
-      'Here is AI-avatar — add it to inventory and enjoy the game!',
+      'Here is a phone that the company can send you for study and work!!',
       generatedAvatarSrc
     );
     inputField.placeholder = 'Avatar ready!';
